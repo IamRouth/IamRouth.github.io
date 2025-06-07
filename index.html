@@ -1,46 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radheshyam Routh - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radheshyam Routh | Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script defer src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <h1>Radheshyam Routh</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+<body class="dark-theme">
+  <header>
+    <h1>Radheshyam Routh</h1>
+    <p>Machine Learning Enthusiast | Programmer | LaTeX Expert</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="resume-button" href="resume.pdf" target="_blank">Download Résumé</a>
+  </header>
 
-    <section id="home">
-        <h2>Welcome to My Portfolio</h2>
-        <p>Hi, I'm Radheshyam Routh, an MSc Data Science student.</p>
-    </section>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>BSc Project: "A Study of Basic Algorithm Design Techniques" under Dr. Soumitra Kayal.</p>
+    <p>Skills: Python (Advanced), R (Intermediate), Java (Basic), C (Intermediate), LaTeX (Advanced)</p>
+    <p>Hobbies: Cycling, Table Tennis, Book Reading</p>
+  </section>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Soon it will be uploaded.</p>
-    </section>
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <h3>GitHub Projects</h3>
+        <p>Explore all my public repositories and machine learning work.</p>
+        <a href="https://github.com/iamrouth" target="_blank">View on GitHub</a>
+      </div>
+    </div>
+  </section>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        <p>Just wait for some time.</p>
-    </section>
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form id="contact-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: radheshyamrouth001@gmail.com</p>
-        <p>LinkedIn: <a href="your-linkedin-url">LinkedIn Profile</a></p>
-        <p>GitHub: <a href="your-github-url">GitHub Profile</a></p>
-    </section>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
 
-    <footer>
-        <p>&copy; 2025 Your Name. All rights reserved.</p>
-    </footer>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Radheshyam Routh. All rights reserved.</p>
+  </footer>
 </body>
 </html>
