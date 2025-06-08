@@ -188,6 +188,23 @@
     typeWriter();
   });
 </script>
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function () {
+    emailjs.init("7eDg_5x0ObR1KvLoZ"); // or public key in latest version
+  })();
+
+  document.getElementById("contact-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    emailjs.sendForm("service_mktzdl9", "template_5jpdwjg", this)
+      .then(() => {
+        alert("Message sent successfully!");
+      }, (error) => {
+        alert("Failed to send message. Error: " + JSON.stringify(error));
+      });
+  });
+</script>
+
 
 <body class="dark-theme">
   <header>
@@ -283,10 +300,10 @@
     <h2>Contact Me</h2>
     <form id="contact-form">
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="user_name" name="name" required>
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="user_email" name="email" required>
 
       <label for="message">Message:</label>
       <textarea id="message" name="message" required></textarea>
@@ -294,6 +311,8 @@
       <button type="submit">Send</button>
     </form>
   </section>
+
+
 
   <footer>
     <p>&copy; 2025 Radheshyam Routh. All rights reserved.</p>
