@@ -188,7 +188,22 @@
     typeWriter();
   });
 </script>
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function () {
+    emailjs.init("7eDg_5x0ObR1KvLoZ"); // or public key in latest version
+  })();
 
+  document.getElementById("contact-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    emailjs.sendForm("service_mktzdl9", "template_5jpdwjg", this)
+      .then(() => {
+        alert("Message sent successfully!");
+      }, (error) => {
+        alert("Failed to send message. Error: " + JSON.stringify(error));
+      });
+  });
+</script>
 
 
 <body class="dark-theme">
