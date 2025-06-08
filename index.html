@@ -5,38 +5,279 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Radheshyam Routh | Portfolio</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script defer src="script.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      background-color: #1e1e1e;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      background: #111;
+      padding: 1rem;
+      z-index: 1000;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 0.5rem;
+      color: #00d1b2;
+      text-decoration: none;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      height: 3px;
+      width: 0;
+      background-color: #00d1b2;
+      transition: width 1s ease-in-out;
+    }
+    nav a.active::after,
+    nav a:hover::after {
+      width: 100%;
+    }
+    section:nth-child(even) {
+      background: linear-gradient(135deg, #1f1f1f, #2b2b2b);
+    }
+    section:nth-child(odd) {
+      background: linear-gradient(135deg, #2c2c2c, #3a3a3a);
+    }
+    section {
+      width: 90vw;
+      max-width: 1000px;
+      margin: auto;
+      padding: 5vh 5vw;
+      box-sizing: border-box;
+      color: #f0f0f0;
+      transition: background 0.5s ease-in-out, opacity 0.8s ease, transform 0.8s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      border-radius: 16px;
+      margin-bottom: 5vh;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    section h2 {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
+    section h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: 0;
+      background-color: #00d1b2;
+      animation: underline-grow 2s ease-in-out forwards, underline-repeat 30s ease-in-out infinite;
+    }
+    @keyframes underline-grow {
+      to { width: 100%; }
+    }
+    @keyframes underline-repeat {
+      0%, 20% { width: 0; }
+      40%, 60% { width: 100%; }
+      80%, 100% { width: 0; }
+    }
+    section h2::before {
+      content: "\f054";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      margin-right: 10px;
+      color: #00d1b2;
+    }
+    .about-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .about-photo img {
+      width: 100%;
+      max-width: 300px;
+      border: 5px solid #00d1b2;
+      border-radius: 8px;
+    }
+    .about-photo {
+      flex: 1 1 35%;
+      padding: 1rem;
+    }
+    .about-text {
+      flex: 1 1 60%;
+      padding: 1rem;
+    }
+    .download-resume {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .download-resume a {
+      color: #fff;
+      background: #00d1b2;
+      padding: 0.4rem 0.8rem;
+      text-decoration: none;
+      border-radius: 12px;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+    .download-resume a:hover {
+      background: #00a693;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #111;
+      color: #aaa;
+    }
+    #back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00d1b2;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      z-index: 999;
+    }
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const text = `👋 Hi, I am Radheshyam Routh. Welcome to my website. I am an M.Sc. student specializing in Data Science (Big Data Analytics) at Ramakrishna Mission Vivekananda Educational and Research Institute (RKMVERI), Belur.
+
+ My interests include Deep Learning, Computer Vision, Natural Language Processing (NLP), Time Series Analysis, and Large Language Models (LLMs).`;
+
+// 🧪 Currently, I am doing a summer internship under Dr. Ruchira Naskar at IIEST, Shibpur, on GAN-based image generation, blending deep learning and generative modeling.
+    const target = document.getElementById("typewriter-text");
+    let index = 0;
+
+    function typeWriter() {
+      if (index < text.length) {
+        target.textContent += text.charAt(index);
+        index++;
+        setTimeout(typeWriter, 30);
+      } else {
+        setTimeout(() => {
+          target.textContent = "";
+          index = 0;
+          typeWriter();
+        }, 30000); // repeat after 30 seconds
+      }
+    }
+
+    typeWriter();
+  });
+</script>
+
 <body class="dark-theme">
   <header>
     <h1>Radheshyam Routh</h1>
-    <p>Machine Learning Enthusiast | Programmer | LaTeX Expert</p>
+    <p>Asspiring Data Analyst | Programmer | LaTeX Expert</p>
     <nav>
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#ongoing-projects">Ongoing Projects</a>
+      <a href="#completed-projects">Completed Projects</a>
+      <a href="#strengths">Technical Strengths</a>
+      <a href="#achievements">Achievements</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="resume-button" href="resume.pdf" target="_blank">Download Résumé</a>
   </header>
 
   <section id="about">
     <h2>About Me</h2>
-    <p>BSc Project: "A Study of Basic Algorithm Design Techniques" under Dr. Soumitra Kayal.</p>
-    <p>Skills: Python (Advanced), R (Intermediate), Java (Basic), C (Intermediate), LaTeX (Advanced)</p>
-    <p>Hobbies: Cycling, Table Tennis, Book Reading</p>
-  </section>
+    <div class="about-container">
+      <div class="about-photo">
+        <img src="radheshyam.jpg" alt="Radheshyam Routh">
+      </div>
+      <div class="about-text">
+        <!-- <p id="typewriter-text"></p> -->
+        <!-- <p><span id="typewriter-text"></span><span class="cursor">|</span></p> -->
+         <p><span id="typewriter-text"></span><span class="cursor">|</span></p>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project-grid">
-      <div class="project-card">
-        <h3>GitHub Projects</h3>
-        <p>Explore all my public repositories and machine learning work.</p>
-        <a href="https://github.com/iamrouth" target="_blank">View on GitHub</a>
+
       </div>
     </div>
+    <div class="download-resume">
+      <!-- <a href="Radheshyam_Routh_Resume.pdf" download>Download Resume</a> -->
+        <a href="Radheshyam_Routh_Resume.pdf" target="_blank" rel="noopener noreferrer">
+  <i class="fas fa-download"></i> Download Résumé</a>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+        <p>🎓Currently, I am undertaking a summer internship under Dr. Ruchira Naskar at IIEST, Shibpur, focusing on GAN-based image generation — a project that blends computer vision, deep learning, and generative modeling. <br>Duration: 19th May to 18th July 2025.</p>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <div class="education-block">
+      <strong>M.Sc. in Big Data Analytics (Data Science)</strong><br>
+      <span class="year">Year: 2024 - (Ongoing)</span>
+      <span class="institute">Institute: Ramakrishna Mission Vivekananda Educational and Research Institute (RKMVERI), Belur</span><br>
+      <span class="grade">Grade: SGPA 8.43/10 (1st Sem)</span>
+    </div>
+    <div class="education-block">
+      <strong>B.Sc. in Mathematics (Hons.)</strong><br>
+      <span class="year">Year: 2021 - 2024</span>
+      <span class="institute">Institute: Ramakrishna Mission Vidyamandira (RKMV), Belur</span><br>
+      <span class="grade">Grade: CGPA 8.93/10</span>
+    </div>
+    <div class="education-block">
+      <strong>Higher Secondary (10+2) | (PCMB)</strong><br>
+      <span class="year">Year: 2019 - 2021</span>
+      <span class="institute">Institute: Marhtala Satyeswar Institution</span><br>
+      <span class="grade">Grade: 95.8%</span>
+    </div>
+    <div class="education-block">
+      <strong>Secondary Education (10)</strong><br>
+      <span class="year">Year: 2013 - 2019</span>
+      <span class="institute">Institute: Panchgeria High School</span><br>
+      <span class="grade">Grade: 94%</span>
+    </div>
+  </section>
+
+  <section id="ongoing-projects">
+    <h2>Ongoing Projects</h2>
+    <p><!-- Add details about current projects here --></p>
+  </section>
+
+  <section id="completed-projects">
+    <h2>Completed Projects</h2>
+    <p><!-- Add details about completed projects here --></p>
+  </section>
+
+  <section id="strengths">
+    <h2>Technical Strengths</h2>
+    <p><!-- List technical skills and proficiencies here --></p>
+  </section>
+
+  <section id="achievements">
+    <h2>Achievements</h2>
+    <p><!-- Add awards, recognitions, or notable accomplishments here --></p>
   </section>
 
   <section id="contact">
@@ -58,5 +299,39 @@
   <footer>
     <p>&copy; 2025 Radheshyam Routh. All rights reserved.</p>
   </footer>
+
+  <button id="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Top</button>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Animate education blocks
+  document.querySelectorAll('.education-block').forEach(block => {
+    observer.observe(block);
+  });
+
+
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
