@@ -1,202 +1,104 @@
-const TYPEWRITER_TEXT = `👋 Hi, I am Radheshyam Routh. Welcome to my website. I am an M.Sc. student specializing in Data Science (Big Data Analytics) at Ramakrishna Mission Vivekananda Educational and Research Institute (RKMVERI), Belur.
+// Enable progressive reveal
+document.documentElement.classList.add('js-enabled');
 
-My interests include Deep Learning, Computer Vision, Natural Language Processing (NLP), Time Series Analysis, and Large Language Models (LLMs).
+// Theme toggle (default: dark)
+const root = document.documentElement;
+const themeBtn = document.querySelector('.theme-toggle');
+const themeText = document.querySelector('.theme-toggle-text');
+const sun = document.querySelector('.fa-sun');
+const moon = document.querySelector('.fa-moon');
 
-🧪 Currently, I am doing a summer internship under Dr. Ruchira Naskar at IIEST, Shibpur, on GAN-based image generation, blending deep learning and generative modeling.`;
+// Respect saved preference
+const saved = localStorage.getItem('theme');
+if (saved === 'light') root.setAttribute('data-theme', 'light');
+if (saved === 'dark') root.setAttribute('data-theme', 'dark');
 
-const THEME_KEY = 'rr-portfolio-theme';
-
-const selectors = {
-  sections: 'section[data-section]',
-  navLink: '.nav-link',
-  themeToggle: '.theme-toggle',
-  navToggle: '.nav-toggle',
-  navList: '#primary-navigation',
-  backToTop: '.back-to-top',
-  contactForm: '#contact-form',
-  typewriterTarget: '#typewriter-text',
-};
-
-const createObserver = () => {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.25,
-      rootMargin: '0px 0px -10% 0px',
-    }
-  );
-
-  const navObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const id = entry.target.getAttribute('id');
-        if (!id) return;
-        const navLink = document.querySelector(`${selectors.navLink}[href="#${id}"]`);
-        if (!navLink) return;
-        if (entry.isIntersecting) {
-          document.querySelectorAll(selectors.navLink).forEach((link) => link.classList.remove('active'));
-          navLink.classList.add('active');
-        }
-      });
-    },
-    {
-      threshold: 0.45,
-      rootMargin: '-15% 0px -35% 0px',
-    }
-  );
-
-  return { revealObserver, navObserver };
-};
-
-const initTypewriter = (target) => {
-  if (!target) return;
-  let index = 0;
-
-  const typeCharacter = () => {
-    if (index < TYPEWRITER_TEXT.length) {
-      const currentChar = TYPEWRITER_TEXT.charAt(index);
-      target.innerHTML += currentChar === '\n' ? '<br />' : currentChar;
-      index += 1;
-      setTimeout(typeCharacter, 28);
-    } else {
-      setTimeout(() => {
-        target.innerHTML = '';
-        index = 0;
-        typeCharacter();
-      }, 28000);
-    }
-  };
-
-  typeCharacter();
-};
-
-const initTheme = (root, toggle) => {
-  if (!root || !toggle) return;
-
-  const label = toggle.querySelector('.theme-toggle-text');
-  const sunIcon = toggle.querySelector('.fa-sun');
-  const moonIcon = toggle.querySelector('.fa-moon');
-
-  const applyTheme = (theme) => {
-    root.setAttribute('data-theme', theme);
-    toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-    toggle.setAttribute('data-theme-mode', theme);
-    toggle.setAttribute('title', `Switch to ${theme === 'light' ? 'dark' : 'light'} mode`);
-
-    if (label) {
-      label.textContent = theme === 'light' ? 'Light' : 'Dark';
-    }
-
-    if (sunIcon && moonIcon) {
-      sunIcon.classList.toggle('is-active', theme === 'light');
-      moonIcon.classList.toggle('is-active', theme === 'dark');
-    }
-  };
-
-  const storedTheme = window.localStorage.getItem(THEME_KEY);
-  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-  applyTheme(storedTheme || (prefersLight ? 'light' : 'dark'));
-
-  toggle.addEventListener('click', () => {
-    const currentTheme = root.getAttribute('data-theme');
-    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-    applyTheme(nextTheme);
-    window.localStorage.setItem(THEME_KEY, nextTheme);
-  });
-};
-
-const initNavigation = (toggle, navList) => {
-  if (!toggle || !navList) return;
-
-  toggle.addEventListener('click', () => {
-    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', (!isExpanded).toString());
-    navList.dataset.open = (!isExpanded).toString();
-  });
-
-  navList.querySelectorAll('a').forEach((link) =>
-    link.addEventListener('click', () => {
-      toggle.setAttribute('aria-expanded', 'false');
-      navList.dataset.open = 'false';
-    })
-  );
-};
-
-const initBackToTop = (button) => {
-  if (!button) return;
-
-  button.hidden = true;
-
-  button.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  window.addEventListener('scroll', () => {
-    const shouldShow = window.scrollY > 320;
-    button.hidden = !shouldShow;
-  });
-};
-
-const initContactForm = (form) => {
-  if (!form || typeof emailjs === 'undefined') return;
-
-  emailjs.init('7eDg_5x0ObR1KvLoZ');
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const submitButton = form.querySelector('button[type="submit"]');
-    const initialText = submitButton ? submitButton.innerHTML : '';
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<span>Sending...</span>';
-    }
-
-    emailjs.sendForm('service_mktzdl9', 'template_5jpdwjg', form).then(
-      () => {
-        alert('Message sent successfully!');
-        form.reset();
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.innerHTML = initialText;
-        }
-      },
-      (error) => {
-        alert(`Failed to send message. Error: ${JSON.stringify(error)}`);
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.innerHTML = initialText;
-        }
-      }
-    );
-  });
-};
-
-const init = () => {
-  document.body.classList.add('js-enabled');
-  const { revealObserver, navObserver } = createObserver();
-  const sections = document.querySelectorAll(selectors.sections);
-  sections.forEach((section) => {
-    revealObserver.observe(section);
-    navObserver.observe(section);
-  });
-
-  initTypewriter(document.querySelector(selectors.typewriterTarget));
-  initTheme(document.body, document.querySelector(selectors.themeToggle));
-  initNavigation(document.querySelector(selectors.navToggle), document.querySelector(selectors.navList));
-  initBackToTop(document.querySelector(selectors.backToTop));
-  initContactForm(document.querySelector(selectors.contactForm));
-};
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
+// Update UI labels
+function refreshThemeLabel() {
+  const isLight = root.getAttribute('data-theme') === 'light';
+  themeText.textContent = isLight ? 'Light' : 'Dark';
+  sun.classList.toggle('is-active', isLight);
+  moon.classList.toggle('is-active', !isLight);
+  themeBtn.setAttribute('aria-pressed', (!isLight).toString());
 }
+refreshThemeLabel();
+
+themeBtn?.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') || 'dark';
+  const next = current === 'light' ? 'dark' : 'light';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  refreshThemeLabel();
+});
+
+// Mobile nav
+const navToggle = document.querySelector('.nav-toggle');
+const navList = document.getElementById('primary-navigation');
+navToggle?.addEventListener('click', () => {
+  const open = navList.getAttribute('data-open') === 'true';
+  navList.setAttribute('data-open', String(!open));
+  navToggle.setAttribute('aria-expanded', String(!open));
+});
+
+// Back to top
+const backToTop = document.querySelector('.back-to-top');
+backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 500) backToTop?.removeAttribute('hidden');
+  else backToTop?.setAttribute('hidden', '');
+});
+backToTop?.setAttribute('hidden', '');
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) e.target.classList.add('is-visible');
+  });
+}, { threshold: 0.18 });
+document.querySelectorAll('.section[data-section]').forEach((s) => observer.observe(s));
+
+// Typewriter text
+const typewriterTarget = document.getElementById('typewriter-text');
+const typeText = `👋 Hi, I am Radheshyam Routh. Welcome to my website. I am an M.Sc. student specializing in Data Science (Big Data Analytics) at RKMVERI, Belur.
+
+My interests include Deep Learning, Computer Vision, NLP, Time Series Analysis, and Large Language Models (LLMs).`;
+let tIndex = 0;
+function typeWriter() {
+  if (!typewriterTarget) return;
+  if (tIndex < typeText.length) {
+    typewriterTarget.textContent += typeText.charAt(tIndex++);
+    setTimeout(typeWriter, 30);
+  } else {
+    setTimeout(() => {
+      typewriterTarget.textContent = '';
+      tIndex = 0;
+      typeWriter();
+    }, 30000);
+  }
+}
+typeWriter();
+
+// EmailJS (replace with your public key / service / template)
+(function () {
+  // 👉 Replace with your own public key from EmailJS dashboard
+  // Example from your older code (if still valid): emailjs.init("7eDg_5x0ObR1KvLoZ");
+  emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+})();
+
+const form = document.getElementById('contact-form');
+form?.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  // 👉 Replace with your own service ID and template ID
+  const SERVICE_ID = "YOUR_SERVICE_ID";
+  const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+
+  emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
+    .then(() => {
+      alert("Message sent successfully!");
+      form.reset();
+    })
+    .catch((error) => {
+      alert("Failed to send message. Error: " + JSON.stringify(error));
+    });
+});
